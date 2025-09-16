@@ -2,6 +2,7 @@ using Demo.BusnissLogic.Services.Classes;
 using Demo.BusnissLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Repositories.Departments;
+using Demo.DataAccess.Repositories.Empolyees;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.PresentationLayer
@@ -23,6 +24,9 @@ namespace Demo.PresentationLayer
 
             builder.Services.AddScoped<IDepartmentRepositories, DepartmentRepositories>();
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
+            builder.Services.AddScoped<IEmpolyeeRepository, EmpolyeeRepository>();
+            builder.Services.AddScoped<IEmpolyeeServices, EmpolyeeServices>();
+
             #endregion
 
             var app = builder.Build();
