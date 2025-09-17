@@ -1,8 +1,10 @@
+using Demo.BusnissLogic.Profiles;
 using Demo.BusnissLogic.Services.Classes;
 using Demo.BusnissLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Repositories.Departments;
 using Demo.DataAccess.Repositories.Empolyees;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.PresentationLayer
@@ -15,7 +17,11 @@ namespace Demo.PresentationLayer
 
             #region Add services to the container
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -26,6 +32,8 @@ namespace Demo.PresentationLayer
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
             builder.Services.AddScoped<IEmpolyeeRepository, EmpolyeeRepository>();
             builder.Services.AddScoped<IEmpolyeeServices, EmpolyeeServices>();
+
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
 
             #endregion
 

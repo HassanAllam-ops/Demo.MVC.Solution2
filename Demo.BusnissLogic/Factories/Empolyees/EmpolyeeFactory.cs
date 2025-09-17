@@ -42,8 +42,8 @@ namespace Demo.BusnissLogic.Factories.Empolyees
                 Salary = empolyee.Salary,
                 IsActive = empolyee.IsActive,
                 Email = empolyee.Email,
-                Gender = empolyee.Gender.ToString(),
-                EmpolyeeType = empolyee.EmpolyeeType.ToString()
+                EmpGender = empolyee.Gender.ToString(),
+                EmpType = empolyee.EmpolyeeType.ToString()
             };
         }
         public static Empolyee ToEntity(this CreatedEmpolyeeDto empolyeeDto)

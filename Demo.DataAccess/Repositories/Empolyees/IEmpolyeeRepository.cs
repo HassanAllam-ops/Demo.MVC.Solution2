@@ -10,6 +10,6 @@ namespace Demo.DataAccess.Repositories.Empolyees
 {
     public interface IEmpolyeeRepository : IGenaricRepostiroy<Empolyee>
     {
-        object Add(Demo.BusnissLogic.DataTransferObjects.Empolyees.CreatedEmpolyeeDto createdEmpolyeeDto);
+       
     }
 }

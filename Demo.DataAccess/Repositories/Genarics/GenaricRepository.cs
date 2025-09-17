@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Models;
 using Demo.DataAccess.Models.Empolyees;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.DataAccess.Repositories.Genarics
 {
-    public class GenaricRepository<TEntity> : IGenaricRepostiroy<TEntity> where TEntity : class
+    public class GenaricRepository<TEntity> : IGenaricRepostiroy<TEntity> where TEntity : BaseEntity
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -24,15 +26,33 @@ namespace Demo.DataAccess.Repositories.Genarics
         {
             if (withTracking)
             {
-                return _dbContext.Set<TEntity>().ToList();
+                return _dbContext.Set<TEntity>().Where(T => T.IsDeleted != true).ToList();
 
             }
             else
             {
-                return _dbContext.Set<TEntity>().AsNoTracking().ToList();
+                return _dbContext.Set<TEntity>().Where(T => T.IsDeleted != true).AsNoTracking().ToList();
 
             }
         }
+
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
+        {
+            return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true).Select(selector).ToList();
+        }
+
+        #region IEnumrable,IQueryable
+        //public IEnumerable<TEntity> GetEnumrable()
+        //{
+        //    return _dbContext.Set<TEntity>().Where(T => T.IsDeleted != true).AsNoTracking().ToList();
+        //}
+
+        //public IQueryable<TEntity> GetQueryable()
+        //{
+        //    return _dbContext.Set<TEntity>().Where(T => T.IsDeleted != true).AsNoTracking();
+        //}
+        #endregion
+
         // Get By Id
         public TEntity? GetById(int id)
         {

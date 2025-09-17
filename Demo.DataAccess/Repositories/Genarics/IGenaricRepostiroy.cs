@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.DataAccess.Models;
@@ -12,8 +13,14 @@ namespace Demo.DataAccess.Repositories.Genarics
     {
         int Add(TEntity entity);
         IEnumerable<TEntity> GetAll(bool withTracking = false);
+        IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity , TResult>> selector);
         TEntity? GetById(int id);
         int Remove(TEntity entity);
         int Update(TEntity entity);
+
+        #region IEnumrable,IQueryable
+        //IEnumerable<TEntity> GetEnumrable();
+        //IQueryable<TEntity> GetQueryable();
+        #endregion
     }
 }
