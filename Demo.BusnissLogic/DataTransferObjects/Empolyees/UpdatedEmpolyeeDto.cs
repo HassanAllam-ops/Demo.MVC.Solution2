@@ -17,8 +17,6 @@ namespace Demo.BusnissLogic.DataTransferObjects.Empolyees
         public string Name { get; set; } = null!;
         [Range(24, 40)]
         public int? Age { get; set; }
-        [RegularExpression("^[1,9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{5,10}-[a-zA-Z]{5,10}$",
-            ErrorMessage = "Address must be like 123-Street-City-Country")]
         public string? Address { get; set; }
         [DataType(DataType.Currency)]
         public decimal Salary { get; set; }

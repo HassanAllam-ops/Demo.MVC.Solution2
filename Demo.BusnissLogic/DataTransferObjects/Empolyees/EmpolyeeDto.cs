@@ -18,9 +18,9 @@ namespace Demo.BusnissLogic.DataTransferObjects.Empolyees
         public bool IsActive { get; set; }
         [EmailAddress]
         public string? Email { get; set; }
-        public string Gender { get; set; } = null!;
+        public string EmpGender { get; set; } = null!;
         [Display(Name = "Empolyee Type")]
-        public string EmpolyeeType { get; set; } = null!;
+        public string EmpType { get; set; } = null!;
 
     }
 }
