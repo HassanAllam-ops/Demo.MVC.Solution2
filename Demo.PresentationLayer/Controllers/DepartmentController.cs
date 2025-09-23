@@ -23,6 +23,8 @@ namespace Demo.PresentationLayer.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            //ViewData["Message"] = new DepartmentDto() {Name = "Hello From ViewData" };
+            //ViewBag.Message = new DepartmentDto() { Name = "Hello From ViewBag" };
             var departments = _departmentServices.GetAllDepartments();
             return View(departments);
         }
@@ -36,27 +38,34 @@ namespace Demo.PresentationLayer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDto departmentDto)
+        public IActionResult Create(DepartmentViewModel departmentVM)
         {
             // Server-side validation
             if (!ModelState.IsValid)
             {
-                return View(departmentDto);
+                return View(departmentVM);
             }
             var massage = "";
             try
             {
+                var departmentDto = new CreatedDepartmentDto()
+                {
+                    Name = departmentVM.Name,
+                    Code = departmentVM.Code,
+                    Description = departmentVM.Description,
+                    DateofCreation = departmentVM.DateofCreation
+                };
                 var result = _departmentServices.AddDepartment(departmentDto);
                 if (result > 0)
                 {
-                    return RedirectToAction("Index");
+                   massage = "Department Created Successfully";
                 }
                 else
                 {
-                    massage = "Department Can't be Created";
-                    ModelState.AddModelError(string.Empty, massage);
-                    return View(departmentDto);
+                    massage = "Department Can't be Created now , try again later :(";
                 }
+                TempData["Message"] = massage;
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -65,7 +74,7 @@ namespace Demo.PresentationLayer.Controllers
                 if (_env.IsDevelopment())
                 {
                     massage = ex.Message;
-                    return View(departmentDto);
+                    return View(departmentVM);
                 }
                 else
                 {

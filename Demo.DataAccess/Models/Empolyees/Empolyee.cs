@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Demo.DataAccess.Models.Departments;
 
 namespace Demo.DataAccess.Models.Empolyees
 {
@@ -18,6 +19,8 @@ namespace Demo.DataAccess.Models.Empolyees
         public Gender Gender { get; set; }
         public EmpolyeeType EmpolyeeType { get; set; }
         public bool IsActive { get; set; }
+        public int? DepartmentId { get; set; } // FK
+        public virtual Department? Department { get; set; }
 
     }
 }

@@ -14,6 +14,7 @@ namespace Demo.DataAccess.Repositories.Genarics
         int Add(TEntity entity);
         IEnumerable<TEntity> GetAll(bool withTracking = false);
         IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity , TResult>> selector);
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicte);
         TEntity? GetById(int id);
         int Remove(TEntity entity);
         int Update(TEntity entity);

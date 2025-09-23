@@ -1,6 +1,7 @@
 ﻿using Demo.BusnissLogic.DataTransferObjects.Empolyees;
 using Demo.BusnissLogic.Services.Interfaces;
 using Demo.DataAccess.Models.Empolyees;
+using Demo.PresentationLayer.ViewModels.Empolyees;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.PresentationLayer.Controllers
@@ -10,7 +11,6 @@ namespace Demo.PresentationLayer.Controllers
         private readonly IEmpolyeeServices _empolyeeServices;
         private readonly ILogger<EmpolyeesController> _logger;
         private readonly IWebHostEnvironment _env;
-
         public EmpolyeesController(IEmpolyeeServices empolyeeServices,
                       ILogger<EmpolyeesController> logger,
                       IWebHostEnvironment env)
@@ -20,9 +20,9 @@ namespace Demo.PresentationLayer.Controllers
             _env = env;
         }
         // Master Action
-        public IActionResult Index()
+        public IActionResult Index(string? EmployeeSearchName)
         {
-            var empolyees = _empolyeeServices.GetAllEmpolyees();
+            var empolyees = _empolyeeServices.GetAllEmpolyees(EmployeeSearchName);
             return View(empolyees);
         }
 
@@ -34,14 +34,28 @@ namespace Demo.PresentationLayer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreatedEmpolyeeDto empolyeeDto)
+        public IActionResult Create(EmpolyeeViewModel empolyeeVM)
         {
             // Server Side Validation
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = _empolyeeServices.CreateEmpolyee(empolyeeDto);
+                    var empolyeeDto = new CreatedEmpolyeeDto()
+                    {
+                        Name = empolyeeVM.Name,
+                        Address = empolyeeVM.Address,
+                        Age = empolyeeVM.Age,
+                        Salary = empolyeeVM.Salary,
+                        IsActive = empolyeeVM.IsActive,
+                        Email = empolyeeVM.Email,
+                        PhoneNumber = empolyeeVM.PhoneNumber,
+                        HiringDate = empolyeeVM.HiringDate,
+                        Gender = empolyeeVM.Gender,
+                        EmpolyeeType = empolyeeVM.EmpolyeeType,
+                        DepartmentId = empolyeeVM.DepartmentId
+                    };
+                        var result = _empolyeeServices.CreateEmpolyee(empolyeeDto);
                     if (result > 0)
                         return RedirectToAction(nameof(Index));
                     else
@@ -61,7 +75,7 @@ namespace Demo.PresentationLayer.Controllers
                     }
                 }
             }
-            return View(empolyeeDto);
+            return View(empolyeeVM);
         }
         #endregion
 
@@ -88,9 +102,8 @@ namespace Demo.PresentationLayer.Controllers
             var empolyee = _empolyeeServices.GetEmpolyeeById(id.Value);
             if (empolyee is null)
                 return NotFound(); // 404
-            return View(new UpdatedEmpolyeeDto()
+            return View(new EmpolyeeViewModel()
             {
-                Id = empolyee.Id,
                 Name = empolyee.Name,
                 Address = empolyee.Address,
                 Age = empolyee.Age,
@@ -100,20 +113,36 @@ namespace Demo.PresentationLayer.Controllers
                 PhoneNumber = empolyee.PhoneNumber,
                 HiringDate = empolyee.HiringDate,
                 Gender = Enum.Parse<Gender>(empolyee.Gender),
-                EmpolyeeType = Enum.Parse<EmpolyeeType>(empolyee.EmpolyeeType)
+                EmpolyeeType = Enum.Parse<EmpolyeeType>(empolyee.EmpolyeeType),
+                DepartmentId = empolyee.DepartmentId
             });
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken] // Action Filter
-        public IActionResult Edit([FromRoute] int? id, UpdatedEmpolyeeDto empolyeeDto)
+        public IActionResult Edit([FromRoute] int? id, EmpolyeeViewModel empolyeeVM)
         {
-            if (id is null || id != empolyeeDto.Id) return BadRequest(); // 400
+            if (id is null) return BadRequest(); // 400
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = _empolyeeServices.UpdateEmpolyee(empolyeeDto);
+                    var empolyeeDto = new UpdatedEmpolyeeDto()
+                    {
+                        Id = id.Value,
+                        Name = empolyeeVM.Name,
+                        Address = empolyeeVM.Address,
+                        Age = empolyeeVM.Age,
+                        Salary = empolyeeVM.Salary,
+                        IsActive = empolyeeVM.IsActive,
+                        Email = empolyeeVM.Email,
+                        PhoneNumber = empolyeeVM.PhoneNumber,
+                        HiringDate = empolyeeVM.HiringDate,
+                        Gender = empolyeeVM.Gender,
+                        EmpolyeeType = empolyeeVM.EmpolyeeType,
+                        DepartmentId = empolyeeVM.DepartmentId
+                    }; 
+                        var result = _empolyeeServices.UpdateEmpolyee(empolyeeDto);
                     if (result > 0)
                         return RedirectToAction(nameof(Index));
                     else
@@ -133,7 +162,7 @@ namespace Demo.PresentationLayer.Controllers
                     }
                 }
             }
-            return View(empolyeeDto);
+            return View(empolyeeVM);
         }
         #endregion
 

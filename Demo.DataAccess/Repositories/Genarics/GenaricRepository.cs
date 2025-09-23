@@ -53,6 +53,11 @@ namespace Demo.DataAccess.Repositories.Genarics
         //}
         #endregion
 
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicte)
+        {
+            return _dbContext.Set<TEntity>().Where(predicte).Where(predicte).ToList(); 
+        }
+
         // Get By Id
         public TEntity? GetById(int id)
         {
@@ -80,5 +85,6 @@ namespace Demo.DataAccess.Repositories.Genarics
             _dbContext.Remove(entity);
             return _dbContext.SaveChanges();
         }
+
     }
 }

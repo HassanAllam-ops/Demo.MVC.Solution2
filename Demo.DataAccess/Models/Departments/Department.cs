@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Demo.DataAccess.Models.Empolyees;
 
 namespace Demo.DataAccess.Models.Departments
 {
     public class Department : BaseEntity
     {
         public string Name { get; set; } = null!;
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public string Code { get; set; } = null!;
+        public virtual ICollection<Empolyee> Empolyees { get; set; } = new HashSet<Empolyee>();
     }
 }

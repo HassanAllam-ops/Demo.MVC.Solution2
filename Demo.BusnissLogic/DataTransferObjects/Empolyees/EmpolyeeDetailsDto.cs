@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,5 +24,8 @@ namespace Demo.BusnissLogic.DataTransferObjects.Empolyees
         public DateTime CreatedOn { get; set; }
         public int LastModfiedBy { get; set; } 
         public DateTime LastModifiedOn { get; set; }
+        public int? DepartmentId { get; set; }
+        [Display(Name = "Department")]
+        public string? DepartmentName { get; set; }
     }
 }
