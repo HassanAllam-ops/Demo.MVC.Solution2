@@ -26,6 +26,7 @@ namespace Demo.PresentationLayer
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseLazyLoadingProxies();
             });
 
             builder.Services.AddScoped<IDepartmentRepositories, DepartmentRepositories>();

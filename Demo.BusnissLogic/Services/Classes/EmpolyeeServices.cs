@@ -24,9 +24,8 @@ namespace Demo.BusnissLogic.Services.Classes
             _mapper = mapper;
         }
 
-        public IEnumerable<EmpolyeeDto> GetAllEmpolyees(bool withTracking = false)
+        public IEnumerable<EmpolyeeDto> GetAllEmpolyees(string? EmployeeSearchName, bool withTracking = false)
         {
-            var empolyees = _empolyeeRepository.GetAll(withTracking);
 
             #region GetEnumrable,GetQueryable
             //var empolyees = _empolyeeRepository.GetEnumrable();
@@ -47,6 +46,16 @@ namespace Demo.BusnissLogic.Services.Classes
             // });
             // Select Specific Empolyee Properties
             #endregion
+
+            IEnumerable<Empolyee> empolyees;
+            if (string.IsNullOrWhiteSpace(EmployeeSearchName))
+            {
+                 empolyees = _empolyeeRepository.GetAll(withTracking);
+            }
+            else
+            {
+                 empolyees = _empolyeeRepository.GetAll(E => E.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
+            }
 
             var empolyeeToReturn = _mapper.Map<IEnumerable<Empolyee>, IEnumerable<EmpolyeeDto>>(empolyees);
             return empolyeeToReturn;

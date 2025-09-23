@@ -21,6 +21,8 @@ namespace Demo.BusnissLogic.DataTransferObjects.Empolyees
         public string EmpGender { get; set; } = null!;
         [Display(Name = "Empolyee Type")]
         public string EmpType { get; set; } = null!;
+        [Display(Name = "Department")]
+        public string? DepartmentName { get; set; }
 
     }
 }
