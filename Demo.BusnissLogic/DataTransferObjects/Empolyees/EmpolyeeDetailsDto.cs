@@ -11,7 +11,7 @@ namespace Demo.BusnissLogic.DataTransferObjects.Empolyees
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        public string Address { get; set; }
+        public string? Address { get; set; }
         public int? Age { get; set; }
         public decimal Salary { get; set; }
         public bool IsActive { get; set; }
@@ -27,5 +27,6 @@ namespace Demo.BusnissLogic.DataTransferObjects.Empolyees
         public int? DepartmentId { get; set; }
         [Display(Name = "Department")]
         public string? DepartmentName { get; set; }
+        public string? Image { get; set; }
     }
 }

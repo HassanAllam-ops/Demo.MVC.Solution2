@@ -22,7 +22,9 @@ namespace Demo.BusnissLogic.Profiles
                .ForMember(dest => dest.Gender, options => options.MapFrom(src => src.Gender))
                .ForMember(dest => dest.EmpolyeeType, options => options.MapFrom(src => src.EmpolyeeType))
                .ForMember(dest => dest.HiringDate, options => options.MapFrom(src => DateOnly.FromDateTime(src.HiringDate)))
-                .ForMember(dest => dest.DepartmentName, options => options.MapFrom(src => src.Department == null ? "No Department" : src.Department.Name));
+               .ForMember(dest => dest.DepartmentName, options => options.MapFrom(src => src.Department == null ? "No Department" : src.Department.Name))
+               .ForMember(dest => dest.Image, options => options.MapFrom(src => src.ImageName));
+
 
             CreateMap<CreatedEmpolyeeDto, Empolyee>()
                 .ForMember(dest => dest.HiringDate, options => options.MapFrom(src => src.HiringDate.ToDateTime(new TimeOnly())));

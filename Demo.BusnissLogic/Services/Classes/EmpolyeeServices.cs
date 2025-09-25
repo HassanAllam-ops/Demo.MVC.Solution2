@@ -9,19 +9,23 @@ using Demo.BusnissLogic.Factories.Empolyees;
 using Demo.BusnissLogic.Services.Interfaces;
 using Demo.DataAccess.Models.Empolyees;
 using Demo.DataAccess.Repositories.Empolyees;
+using Demo.DataAccess.Repositories.UOW;
 
 namespace Demo.BusnissLogic.Services.Classes
 {
     public class EmpolyeeServices : IEmpolyeeServices
     {
-        private readonly IEmpolyeeRepository _empolyeeRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IAttachmentService _attachmentService;
 
-        public EmpolyeeServices(IEmpolyeeRepository empolyeeRepository,
-                                          IMapper mapper)
+        public EmpolyeeServices(IUnitOfWork unitOfWork,
+                                          IMapper mapper,
+                                          IAttachmentService attachmentService)
         {
-            _empolyeeRepository = empolyeeRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
+           _attachmentService = attachmentService;
         }
 
         public IEnumerable<EmpolyeeDto> GetAllEmpolyees(string? EmployeeSearchName, bool withTracking = false)
@@ -50,11 +54,11 @@ namespace Demo.BusnissLogic.Services.Classes
             IEnumerable<Empolyee> empolyees;
             if (string.IsNullOrWhiteSpace(EmployeeSearchName))
             {
-                 empolyees = _empolyeeRepository.GetAll(withTracking);
+                 empolyees = _unitOfWork.EmpolyeeRepository.GetAll(withTracking);
             }
             else
             {
-                 empolyees = _empolyeeRepository.GetAll(E => E.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
+                 empolyees = _unitOfWork.EmpolyeeRepository.GetAll(E => E.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
             }
 
             var empolyeeToReturn = _mapper.Map<IEnumerable<Empolyee>, IEnumerable<EmpolyeeDto>>(empolyees);
@@ -76,7 +80,7 @@ namespace Demo.BusnissLogic.Services.Classes
 
         public EmpolyeeDetailsDto? GetEmpolyeeById(int id)
         {
-            var empolyee = _empolyeeRepository.GetById(id);
+            var empolyee = _unitOfWork.EmpolyeeRepository.GetById(id);
             return empolyee is null ? null : _mapper.Map<Empolyee,EmpolyeeDetailsDto>(empolyee);
 
             //return empolyee is null ? null : empolyee.ToEmpolyeeDetailsDto();
@@ -87,25 +91,42 @@ namespace Demo.BusnissLogic.Services.Classes
         public int CreateEmpolyee(CreatedEmpolyeeDto empolyeeDto)
         {
             var empolyee = _mapper.Map<CreatedEmpolyeeDto, Empolyee>(empolyeeDto);
-            return _empolyeeRepository.Add(empolyee);
+            if (empolyeeDto.Image is not null)
+            {
+               empolyee.ImageName = _attachmentService.Upload(empolyeeDto.Image, "Images");
+            }
+             _unitOfWork.EmpolyeeRepository.Add(empolyee);
+            return _unitOfWork.SaveChanges();
         }
 
         public int UpdateEmpolyee(UpdatedEmpolyeeDto empolyeeDto)
         {
-           return _empolyeeRepository.Update(_mapper.Map<UpdatedEmpolyeeDto , Empolyee>(empolyeeDto));
+            var empolyee = _mapper.Map<UpdatedEmpolyeeDto, Empolyee>(empolyeeDto);
+            if (empolyeeDto.Image is not null)
+            {
+                if (!string.IsNullOrWhiteSpace(empolyee.ImageName))
+                {
+                    _attachmentService.Delete(empolyee.ImageName);
+                }
+                empolyee.ImageName = _attachmentService.Upload(empolyeeDto.Image, "Images");
+            }
+            _unitOfWork.EmpolyeeRepository.Update(empolyee);
+            return _unitOfWork.SaveChanges();
         }
 
         public bool DeleteEmpolyee(int id)
         {
-            var empolyee = _empolyeeRepository.GetById(id);
+            var empolyee = _unitOfWork.EmpolyeeRepository.GetById(id);
             if (empolyee is null)
             {
                 return false;
             }
             empolyee.IsDeleted = true;
-            var result = _empolyeeRepository.Update(empolyee);
+            _unitOfWork.EmpolyeeRepository.Update(empolyee);
+            var result =  _unitOfWork.SaveChanges();
             if (result > 0) return true;
             else return false;
+            
 
             /// Hard Delete
             ///else

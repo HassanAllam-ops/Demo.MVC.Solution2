@@ -27,5 +27,6 @@ namespace Demo.PresentationLayer.ViewModels.Empolyees
         public EmpolyeeType EmpolyeeType { get; set; }
         [Display(Name = "Department")]
         public int? DepartmentId { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }
