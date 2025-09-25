@@ -53,7 +53,8 @@ namespace Demo.PresentationLayer.Controllers
                         HiringDate = empolyeeVM.HiringDate,
                         Gender = empolyeeVM.Gender,
                         EmpolyeeType = empolyeeVM.EmpolyeeType,
-                        DepartmentId = empolyeeVM.DepartmentId
+                        DepartmentId = empolyeeVM.DepartmentId,
+                        Image = empolyeeVM.Image
                     };
                         var result = _empolyeeServices.CreateEmpolyee(empolyeeDto);
                     if (result > 0)
@@ -81,7 +82,6 @@ namespace Demo.PresentationLayer.Controllers
 
         // Get : baseUrl/Empolyees/Details/{id}
         public IActionResult Details (int? id)
-
         {
             if (id is null || id <= 0)
                 return BadRequest(); // 400
@@ -140,7 +140,8 @@ namespace Demo.PresentationLayer.Controllers
                         HiringDate = empolyeeVM.HiringDate,
                         Gender = empolyeeVM.Gender,
                         EmpolyeeType = empolyeeVM.EmpolyeeType,
-                        DepartmentId = empolyeeVM.DepartmentId
+                        DepartmentId = empolyeeVM.DepartmentId,
+                        Image = empolyeeVM.Image
                     }; 
                         var result = _empolyeeServices.UpdateEmpolyee(empolyeeDto);
                     if (result > 0)

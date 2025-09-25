@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.DataAccess.Models.Empolyees;
+using Microsoft.AspNetCore.Http;
 
 namespace Demo.BusnissLogic.DataTransferObjects.Empolyees
 {
@@ -31,6 +32,6 @@ namespace Demo.BusnissLogic.DataTransferObjects.Empolyees
         public Gender Gender { get; set; } 
         public EmpolyeeType EmpolyeeType { get; set; }
         public int? DepartmentId { get; set; }
-
+        public IFormFile? Image { get; set; }
     }
 }

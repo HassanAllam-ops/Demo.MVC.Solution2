@@ -11,13 +11,13 @@ namespace Demo.DataAccess.Repositories.Genarics
 {
     public interface IGenaricRepostiroy<TEntity> where TEntity : BaseEntity
     {
-        int Add(TEntity entity);
+        void Add(TEntity entity);
         IEnumerable<TEntity> GetAll(bool withTracking = false);
         IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity , TResult>> selector);
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicte);
         TEntity? GetById(int id);
-        int Remove(TEntity entity);
-        int Update(TEntity entity);
+        void Remove(TEntity entity);
+        void Update(TEntity entity);
 
         #region IEnumrable,IQueryable
         //IEnumerable<TEntity> GetEnumrable();

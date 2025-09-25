@@ -21,6 +21,6 @@ namespace Demo.DataAccess.Models.Empolyees
         public bool IsActive { get; set; }
         public int? DepartmentId { get; set; } // FK
         public virtual Department? Department { get; set; }
-
+        public string? ImageName { get; set; }
     }
 }

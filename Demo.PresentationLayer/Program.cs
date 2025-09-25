@@ -4,6 +4,7 @@ using Demo.BusnissLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Repositories.Departments;
 using Demo.DataAccess.Repositories.Empolyees;
+using Demo.DataAccess.Repositories.UOW;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,8 @@ namespace Demo.PresentationLayer
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
             builder.Services.AddScoped<IEmpolyeeRepository, EmpolyeeRepository>();
             builder.Services.AddScoped<IEmpolyeeServices, EmpolyeeServices>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
 

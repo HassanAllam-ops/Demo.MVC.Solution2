@@ -4,6 +4,14 @@
 }
 
 <h1 class="my-5 w-75">Empolyee Details</h1>
+@if(string.IsNullOrEmpty(Model.Image))
+{
+    <p>No Image Avaliable</p>
+}
+else
+{
+    <img src="~/Files/Images/@Model.Image" class="img-fluid rounded-circle" alt="Image" />
+}
 
 
 <ul class="nav nav-tabs" id="empolyeeTabs" role="tablist">
