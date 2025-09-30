@@ -53,8 +53,8 @@
                     </td>
                     <td>@Html.DisplayFor(e => empolyee.EmpGender)</td>
 
-					@* @Html.Partial("_ButtonsPartialView", empolyee.Id) *@
-					<partial  name="_ButtonsPartialView" model="empolyee.Id" />
+                    @* Fix: Pass empolyee.Id directly if _ButtonsPartialView expects int, or use empolyee.Id.ToString() if it expects string *@
+                    <partial name="_ButtonsPartialView" model="empolyee.Id.ToString()" />
 
                     <td>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@empolyee.Id">
@@ -93,4 +93,3 @@ else
         <h2>No Empolyees Found !!</h2>
     </div>
 }
-

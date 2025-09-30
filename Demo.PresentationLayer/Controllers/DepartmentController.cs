@@ -2,10 +2,12 @@
 using Demo.BusnissLogic.DataTransferObjects.Departments;
 using Demo.BusnissLogic.Services.Interfaces;
 using Demo.PresentationLayer.ViewModels.Departments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.PresentationLayer.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly IDepartmentServices _departmentServices;
