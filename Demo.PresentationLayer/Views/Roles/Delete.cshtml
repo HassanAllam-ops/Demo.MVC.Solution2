@@ -1,0 +1,25 @@
+﻿@model IdentityRole
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="my-5 m-auto">Delete Role</h1>
+
+<div class="row">
+    <div class="form-group col-6">
+        <label class="col-form-label" asp-for="Id"></label>
+        <input asp-for="Id" class="form-control" readonly />
+    </div>
+    <div class="form-group col-6">
+        <label class="col-form-label" asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" readonly />
+    </div>
+</div>
+<div class="mt-4">
+    <form method="post" asp-controller="Roles" asp-action="Delete" asp-route-id="@Model.Id">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>
+

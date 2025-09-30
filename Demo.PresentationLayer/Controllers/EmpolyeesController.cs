@@ -2,10 +2,12 @@
 using Demo.BusnissLogic.Services.Interfaces;
 using Demo.DataAccess.Models.Empolyees;
 using Demo.PresentationLayer.ViewModels.Empolyees;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.PresentationLayer.Controllers
 {
+    [Authorize]
     public class EmpolyeesController : Controller
     {
         private readonly IEmpolyeeServices _empolyeeServices;

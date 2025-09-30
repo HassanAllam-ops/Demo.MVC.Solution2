@@ -1,0 +1,37 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="my-5 m-auto">Delete User</h1>
+
+<div class="row">
+    <div class="form-group col-6">
+        <label class="col-form-label" asp-for="Id"></label>
+        <input asp-for="Id" class="form-control" readonly />
+    </div>
+    <div class="form-group col-6">
+        <label class="col-form-label" asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" readonly />
+    </div>
+    <div class="form-group col-12">
+        <label class="col-form-label" asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" readonly />
+    </div>
+    <div class="form-group col-12">
+        <label class="col-form-label" asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" readonly />
+    </div>
+    <div class="form-group col-12">
+        <label class="col-form-label" asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" readonly />
+    </div>
+
+</div>
+    <div class="mt-4">
+        <form method="post" asp-controller="UserManager" asp-action="Delete" asp-route-id="@Model.Id">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
